@@ -1,0 +1,6 @@
+[submodule "afg-generato"]
+	path = afg-generato
+	url = https://github.com/SerafimC/afd_generator.git
+[submodule "afd-generator"]
+	path = afd-generator
+	url = https://github.com/SerafimC/afd_generator.git

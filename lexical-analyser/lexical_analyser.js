@@ -1,5 +1,5 @@
-const fileService = require('./../afg-generator/file_service');
-const afg_gen = require('./../afg-generator/bnf_syntax');
+const fileService = require('./../afd-generator/file_service');
+const afg_gen = require('./../afd-generator/bnf_syntax');
 const sourceFont = './font.mcs'
 let symbol_tabel = Array(0)
 
