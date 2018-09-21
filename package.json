@@ -1,0 +1,19 @@
+{
+    "name": "compiler",
+    "version": "1.0.0",
+    "description": "UFFS Compilers Class final work",
+    "scripts": {
+        "start": "node lexical-analyser/lexical_analyser.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SerafimC/finalWork_compilers.git"
+    },
+    "author": "Marcos Serafim (SerafimC)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/SerafimC/finalWork_compilers/issues"
+    },
+    "homepage": "https://github.com/SerafimC/finalWork_compilers#readme"
+}

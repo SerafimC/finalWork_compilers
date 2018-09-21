@@ -16,28 +16,32 @@ exports.process = function() {
         let nextTransition = ''
         let currentToken = ''
         for (let j = 0; j < cInput[i].length; j++) {
-            let endOfTokenOrLine = cInput[i][j + 1] == " " || j == cInput[i].length
+            let endOfTokenOrLine = cInput[i][j + 1] == " " || j == cInput[i].length || cInput[i][j + 1] == "\r\n" || cInput[i][j + 1] == "\n" || cInput[i][j + 1] == "\r"
+            let separatorChar = cInput[i][j] == " " || cInput[i][j] == "\r\n" || cInput[i][j] == "\n" || cInput[i][j] == "\r"
             let state = AFD[currentState]
             let currentChar = cInput[i][j]
 
             outRibbon += currentChar
-            currentToken += currentChar
+            if (!separatorChar) {
+                currentToken += currentChar
+            }
 
             nextTransition = state.findIndex((el) => el.symbolName == currentChar)
 
             if (state[nextTransition] == undefined) {
-                break
+                continue
             }
 
             IDnextTransition = TableGenerator.aNT.findIndex((el) => el.ruleName == state[nextTransition].transition)
 
             if (TableGenerator.aNT[IDnextTransition].isFinal && endOfTokenOrLine) {
                 TS.push({ token: currentToken, type: '', scope: '' })
+                currentToken = ''
             }
         }
     }
-
-
+    console.log(outRibbon)
+    console.log(TS)
 }
 
 
