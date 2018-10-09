@@ -1,4 +1,4 @@
-variable x, y, result
+@ variable x, y, result
 
 x = 1
 y = 2
