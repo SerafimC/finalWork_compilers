@@ -5,18 +5,20 @@ let symbol_tabel = Array(0)
 
 exports.process = function() {
 
+    
     let outRibbon = ''
     let TableGenerator = afg_gen.process()
     let AFD = TableGenerator.aAFD
     let TS = Array(0)
     let cInput = fileService.open(sourceFont)
+    let currentToken = ''
 
-    for (let i = 0; i < cInput.length; i++) {
+    for (var i = 0; i < cInput.length; i++) {
         let currentState = 0
         let currentTransition = ''
         let nextTransition = ''
-        let currentToken = ''
-
+        currentToken = ''
+        
         for (let j = 0; j < cInput[i].length; j++) {
             let endOfTokenOrLine = cInput[i][j + 1] == " " || j == cInput[i].length || cInput[i][j + 1] == "\r\n" || cInput[i][j + 1] == "\n" || cInput[i][j + 1] == "\r"
             let separatorChar = cInput[i][j] == " " || cInput[i][j] == "\r\n" || cInput[i][j] == "\n" || cInput[i][j] == "\r"
@@ -33,11 +35,10 @@ exports.process = function() {
 
             if (state[currentTransition] == undefined) {
                 if(!separatorChar){
-                    TS.push({ token: currentToken, type: '', scope: '', state: 'ErrorState' })
-                    outRibbon += '<' + 'ErrorState' + '>'
-                    currentToken = ''
+                    insertTableSymbol.call(this, currentToken, 'ErrorState', 0)
                     continue
                 } else {
+                    currentToken = ''
                     continue
                 }
             }
@@ -48,17 +49,11 @@ exports.process = function() {
             
             if (state[nextTransition] == undefined) {
 
-                if (TableGenerator.aNT[IDcurrentTransition].isFinal && endOfTokenOrLine) {
-                    TS.push({ token: currentToken, type: '', scope: '', state: IDcurrentTransition })
-                    outRibbon += '<' + IDcurrentTransition + '>'
-                    currentToken = ''
-                    i+2
+                if (TableGenerator.aNT[IDcurrentTransition].isFinal) {
+                    insertTableSymbol.call(this, currentToken, IDcurrentTransition, 2)
                     continue
                 }  else {
-                    TS.push({ token: currentToken, type: '', scope: '', state: 'ErrorState' })
-                    outRibbon += '<' + 'ErrorState' + '>'
-                    currentToken = ''
-                    i+2
+                    insertTableSymbol.call(this, currentToken, 'ErrorState', 2)
                     continue
                 }
             } else {
@@ -66,33 +61,21 @@ exports.process = function() {
 
                 if(TableGenerator.aNT[IDnextTransition] == undefined) {
                     if (TableGenerator.aNT[IDcurrentTransition].isFinal && endOfTokenOrLine) {
-                        TS.push({ token: currentToken, type: '', scope: '', state: IDcurrentTransition })
-                        outRibbon += '<' + IDcurrentTransition + '>'
-                        currentToken = ''
-                        i+2
+                        insertTableSymbol.call(this, currentToken, IDcurrentTransition, 2)
                         continue
                     }  else {
-                        TS.push({ token: currentToken, type: '', scope: '', state: 'ErrorState' })
-                        outRibbon += '<' + 'ErrorState' + '>'
-                        currentToken = ''
-                        i+2
+                        insertTableSymbol.call(this, currentToken, 'ErrorState', 2)
                         continue
                     }
                 }
 
                 if (nextState[nextTransition].transition != 'ErrorState' && (!TableGenerator.aNT[IDnextTransition].isFinal || !endOfTokenOrLine)) {
                     continue
-                } else if(state[nextTransition].transition == 'ErrorState' && (!TableGenerator.aNT[IDnextTransition].isFinal || !endOfTokenOrLine)) {
-                    TS.push({ token: currentToken, type: '', scope: '', state: IDcurrentTransition })
-                    outRibbon += '<' + IDcurrentTransition + '>'
-                    currentToken = ''
-                    i+2
+                } else if(nextState[nextTransition].transition == 'ErrorState' && (!TableGenerator.aNT[IDcurrentTransition].isFinal || !endOfTokenOrLine)) {
+                    insertTableSymbol.call(this, currentToken, IDcurrentTransition, 2)
                     continue
                 }  else {
-                    TS.push({ token: currentToken, type: '', scope: '', state: 'ErrorState' })
-                    outRibbon += '<' + 'ErrorState' + '>'
-                    currentToken = ''
-                    i+2
+                    insertTableSymbol.call(this, currentToken, 'ErrorState', 2)
                     continue
                 }
 
@@ -100,6 +83,22 @@ exports.process = function() {
 
         }
     }
+    outRibbon += '$'
+
+    function insertTableSymbol(label, state, displacement) {
+        let idTS = TS.findIndex((el) => el.token == label);
+
+        if(idTS >= 0) { 
+            i+displacement
+            currentToken = ''
+            return 
+        }
+        TS.push({ token: label, type: '', scope: '', state: state })
+        outRibbon += '<' + state + '>'
+        currentToken = ''
+        i+displacement
+    }
+
     console.log(outRibbon)
     console.log(TS)
 }
