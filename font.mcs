@@ -1,8 +1,16 @@
-@ variable x, y, result
+variable x, y, resultado = 2
 
 x = 1
-y = 2
+y = 1
 
-result =  x + y
-
-estampar(result)
+mientras( resultado != 8)
+    si ( x < y) entonces
+        resultado += x + y
+    final
+    
+    si ( x > y) entonces
+        resultado -= x + y
+    sino
+        resultado *= x + y
+    final
+de nuevo
