@@ -102,7 +102,5 @@ exports.process = function() {
 
     // console.log(outRibbon)
     // console.log(TS)
+    return {TS: TS, outRibbon: outRibbon}
 }
-
-
-this.process()
