@@ -1,5 +1,5 @@
-const fileService = require('./../afd-generator/file_service');
-const afg_gen = require('./../afd-generator/bnf_syntax');
+const fileService = require('../afd-generator/file_service');
+const afg_gen = require('../afd-generator/bnf_syntax');
 const sourceFont = './font.mcs'
 let symbol_tabel = Array(0)
 
@@ -70,6 +70,7 @@ exports.process = function() {
                 }
 
                 if (nextState[nextTransition].transition != 'ErrorState' && (!TableGenerator.aNT[IDnextTransition].isFinal || !endOfTokenOrLine)) {
+                    currentState = IDcurrentTransition
                     continue
                 } else if(nextState[nextTransition].transition == 'ErrorState' && (!TableGenerator.aNT[IDcurrentTransition].isFinal || !endOfTokenOrLine)) {
                     insertTableSymbol.call(this, currentToken, IDcurrentTransition, 2)
@@ -99,8 +100,8 @@ exports.process = function() {
         i+displacement
     }
 
-    console.log(outRibbon)
-    console.log(TS)
+    // console.log(outRibbon)
+    // console.log(TS)
 }
 
 

@@ -1,8 +1,10 @@
 // DOC: http://www.goldparser.org/doc/templates/tag-lalr-table.htm
-const fileService = require('./afd-generator/file_service');
+const fileService = require('../afd-generator/file_service');
 const sourceFont = './MyGrammar.xml'
+const lex_an = require('./../lexical-analyser/lexical-analyser');
 var parseString = require('xml2js').parseString;
-var xml = "" //"<root>Hello xml2js!</root>"
+var xml = "" 
+var Grammar
 
 let cInput = fileService.open(sourceFont)
 for (var i = 0; i < cInput.length; i++) {
@@ -15,8 +17,7 @@ for (var i = 0; i < cInput.length; i++) {
 
 
 parseString(xml, function(err, result) {
-
-
-    console.log(result.Tables.LALRTable[0].LALRState[0].LALRAction);
-
+    Grammar = result
 });
+
+console.log(Grammar)

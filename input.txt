@@ -1,37 +1,35 @@
-++
 -
-/
-*
---
-=
-+
-si
-entonces
-no
-mientras
-{
-}
+!=
 (
 )
-<
->
-<=
->=
-.
+*
+*=
 ,
-'
-"
+/
++
++=
+<
+<=
+=
+-=
+==
+>
+>=
+denuevo
+entonces
+final
+mientras
+RegExp
+si
+sino
 variable
-funcion
-regreso
-continuar
-estampar
-#
-//
-/*
-*/
+StringLiteral
+NewLine
+HexIntegerLiteral
+DecimalLiteral
 ☨
-<S> ::= 1<A> | 2<A> | 3<A> | 4<A> | 5<A> | 6<A> | 7<A> | 8<A> | 9<A> | 
-<A> ::= 1<A> | 2<A> | 3<A> | 4<A> | 5<A> | 6<A> | 7<A> | 8<A> | 9<A> | ε
 <S> ::= a<B> | b<B> | c<B> | d<B> | e<B> | f<B> | g<B> | h<B> | i<B> | j<B> | k<B> | l<B> | m<B> | n<B> | o<B> | p<B> | q<B> | r<B> | s<B> | t<B> | u<B> | v<B> | w<B> | x<B> | y<B> | z<B> |
 <B> ::= a<B> | b<B> | c<B> | d<B> | e<B> | f<B> | g<B> | h<B> | i<B> | j<B> | k<B> | l<B> | m<B> | n<B> | o<B> | p<B> | q<B> | r<B> | s<B> | t<B> | u<B> | v<B> | w<B> | x<B> | y<B> | z<B> | ε
+<S> ::= 1<C> | 2<C> | 3<C> | 4<C> | 5<C> | 6<C> | 7<C> | 8<C> | 9<C> | 
+<C> ::= 0<C> | 1<C> | 2<C> | 3<C> | 4<C> | 5<C> | 6<C> | 7<C> | 8<C> | 9<C> | .<D> | ε
+<D> ::= 0<D> | 1<D> | 2<D> | 3<D> | 4<D> | 5<D> | 6<D> | 7<D> | 8<D> | 9<D> | ε

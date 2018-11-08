@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "UFFS Compilers Class final work",
     "scripts": {
-        "start": "node lexical-analyser/lexical_analyser.js",
+        "start": "node syntactic-analyser/syntactic-analyser.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
