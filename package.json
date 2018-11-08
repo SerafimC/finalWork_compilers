@@ -15,5 +15,8 @@
     "bugs": {
         "url": "https://github.com/SerafimC/finalWork_compilers/issues"
     },
-    "homepage": "https://github.com/SerafimC/finalWork_compilers#readme"
+    "homepage": "https://github.com/SerafimC/finalWork_compilers#readme",
+    "dependencies": {
+        "xml2js": "^0.4.19"
+    }
 }
