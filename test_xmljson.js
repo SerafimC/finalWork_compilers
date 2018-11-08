@@ -1,3 +1,4 @@
+// DOC: http://www.goldparser.org/doc/templates/tag-lalr-table.htm
 const fileService = require('./afd-generator/file_service');
 const sourceFont = './MyGrammar.xml'
 var parseString = require('xml2js').parseString;
