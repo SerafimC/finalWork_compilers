@@ -1,12 +1,11 @@
 const fileService = require('../afd-generator/file_service');
 const afg_gen = require('../afd-generator/bnf_syntax');
 const sourceFont = './font.mcs'
-let symbol_tabel = Array(0)
 
 exports.process = function() {
 
 
-    let outRibbon = ''
+    let outRibbon = Array(0)
     let TableGenerator = afg_gen.process()
     let AFD = TableGenerator.aAFD
     let TS = Array(0)
@@ -84,26 +83,25 @@ exports.process = function() {
 
         }
     }
-    outRibbon += '$'
+    outRibbon.push('$')
 
     function insertTableSymbol(label, state, displacement) {
         let idTS = TS.findIndex((el) => el.token == label);
 
         if (idTS >= 0) {
             i + displacement
-            outRibbon += '<' + state + '>'
+            outRibbon.push(state)
             currentState = 0
             currentToken = ''
             return
         }
         TS.push({ token: label, type: '', scope: '', state: state })
-        outRibbon += '<' + state + '>'
+        outRibbon.push(state)
         currentToken = ''
         currentState = 0
         i + displacement
     }
 
-    // console.log(outRibbon)
     // console.log(TS)
     return { TS: TS, outRibbon: outRibbon }
 }

@@ -47,7 +47,7 @@ function LoadGrammar() {
         }
     }
 
-    console.log(TS)
+    // console.log(TS)
 }
 
 this.process()
