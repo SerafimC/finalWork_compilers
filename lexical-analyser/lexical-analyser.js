@@ -91,6 +91,8 @@ exports.process = function() {
 
         if (idTS >= 0) {
             i + displacement
+            outRibbon += '<' + state + '>'
+            currentState = 0
             currentToken = ''
             return
         }
