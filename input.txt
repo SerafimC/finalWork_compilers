@@ -27,6 +27,7 @@ StringLiteral
 NewLine
 HexIntegerLiteral
 DecimalLiteral
+$
 ☨
 <S> ::= a<B> | b<B> | c<B> | d<B> | e<B> | f<B> | g<B> | h<B> | i<B> | j<B> | k<B> | l<B> | m<B> | n<B> | o<B> | p<B> | q<B> | r<B> | s<B> | t<B> | u<B> | v<B> | w<B> | x<B> | y<B> | z<B> |
 <B> ::= a<B> | b<B> | c<B> | d<B> | e<B> | f<B> | g<B> | h<B> | i<B> | j<B> | k<B> | l<B> | m<B> | n<B> | o<B> | p<B> | q<B> | r<B> | s<B> | t<B> | u<B> | v<B> | w<B> | x<B> | y<B> | z<B> | ε

@@ -1,30 +1,64 @@
 // DOC: http://www.goldparser.org/doc/templates/tag-lalr-table.htm
 const fileService = require('../afd-generator/file_service');
 const sourceGrammar = './MyGrammar.xml'
-const sourceFont = './font.mcs'
-const lex_an = require('./../lexical-analyser/lexical-analyser');
-const LEX_OUT = lex_an.process()
-const TS = LEX_OUT.TS
-var parseString = require('xml2js').parseString;
-var Symbol = []
-var xml = ""
-var Grammar
-var LALRTab
+const LEX_OUT = require('./../lexical-analyser/lexical-analyser').process();
+const parseString = require('xml2js').parseString;
+var Symbols = Array(0)
+var LALRTab = Array(0)
 
 exports.process = function() {
     LoadGrammar()
 
-    let outRibbon = LEX_OUT.outRibbon
+    let outRibbon = LEX_OUT.outRibbon.slice()
+    let currentState = 0;
+    let symbol = 0;
+    let stack = Array(0)
+    let i = 0
 
-    console.log(outRibbon)
+    while (outRibbon.length > 0) {
+        let topSymbol = outRibbon[i]
+        
+        let id = Symbols.findIndex((el) => el.$.TSindex == topSymbol)
+        
+        if(id < 0){
+            throw "Symbol not found"
+        } else {
+            symbol = Symbols[id].$.Index
+        }
 
-    for (var i = 0; i < outRibbon.length; i++) {}
-    // console.log(Symbol)
-    // console.log(TS)
+        id = LALRTab[currentState].LALRAction.findIndex((el) => el.$.SymbolIndex = symbol)
+        LALRAction = LALRTab[currentState].LALRAction[id]
+
+        switch (LALRAction.Action) {
+            case 1:
+                stack.push(LALRAction.Value)
+                continue; // remover da fita
+                // Shift
+                break;
+            case 2:
+                // Reduce
+                break;
+            case 3:
+                // GOTO (Jump)
+                break;
+            case 4:
+                // Accept
+                break;
+            default:
+                break;
+        }
+
+        i++
+    }
+    console.log(LALRTab[0].LALRAction)
+
 }
 
 function LoadGrammar() {
     let cInput = fileService.open(sourceGrammar)
+    let Grammar = Array(0)
+    let xml = ""
+    let TS = LEX_OUT.TS
 
     for (var i = 0; i < cInput.length; i++) {
         for (let j = 0; j < cInput[i].length; j++) {
@@ -36,18 +70,23 @@ function LoadGrammar() {
         Grammar = result
     });
 
-    Symbol = Grammar.Tables.m_Symbol[0].Symbol
+    Symbols = Grammar.Tables.m_Symbol[0].Symbol
     LALRTab = Grammar.Tables.LALRTable[0].LALRState
 
     for (var i = 0; i < TS.length; i++) {
-        var id = Symbol.findIndex((el) => el.$.Name == TS[i].token)
+        let id = Symbols.findIndex((el) => el.$.Name == TS[i].token)
 
         if (id > -1) {
-            Symbol[id].$["TSindex"] = TS[i].state
+            Symbols[id].$["TSindex"] = TS[i].state
         }
     }
 
-    // console.log(TS)
+    id = Symbols.findIndex((el) => el.$.Name == "DecimalLiteral")
+    Symbols[id].$["TSindex"] = 72
+
+    id = Symbols.findIndex((el) => el.$.Name == "Variable")
+    Symbols[id].$["TSindex"] = 71
+
 }
 
 this.process()

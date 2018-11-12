@@ -84,6 +84,7 @@ exports.process = function() {
         }
     }
     outRibbon.push('$')
+    TS.push({ token: '$', type: '', scope: '', state: '$' })
 
     function insertTableSymbol(label, state, displacement) {
         let idTS = TS.findIndex((el) => el.token == label);
@@ -102,6 +103,6 @@ exports.process = function() {
         i + displacement
     }
 
-    // console.log(TS)
+    console.log(TS)
     return { TS: TS, outRibbon: outRibbon }
 }
