@@ -4,6 +4,7 @@ const sourceGrammar = './MyGrammar.xml'
 const LEX_OUT = require('./../lexical-analyser/lexical-analyser').process();
 const parseString = require('xml2js').parseString;
 var Symbols = Array(0)
+var Productions = Array(0)
 var LALRTab = Array(0)
 
 exports.process = function() {
@@ -12,43 +13,47 @@ exports.process = function() {
     let outRibbon = LEX_OUT.outRibbon.slice()
     let currentState = 0;
     let symbol = 0;
-    let stack = Array(0)
-    let i = 0
+    let stack = Array("0")
 
     while (outRibbon.length > 0) {
-        let topSymbol = outRibbon[i]
-        
+        let topSymbol = outRibbon[0]
         let id = Symbols.findIndex((el) => el.$.TSindex == topSymbol)
-        
-        if(id < 0){
+
+
+        if (id < 0) {
             throw "Symbol not found"
         } else {
             symbol = Symbols[id].$.Index
         }
 
-        id = LALRTab[currentState].LALRAction.findIndex((el) => el.$.SymbolIndex = symbol)
+        id = LALRTab[currentState].LALRAction.findIndex((el) => el.$.SymbolIndex == symbol)
         LALRAction = LALRTab[currentState].LALRAction[id]
 
-        switch (LALRAction.Action) {
-            case 1:
-                stack.push(LALRAction.Value)
-                continue; // remover da fita
-                // Shift
-                break;
-            case 2:
-                // Reduce
-                break;
-            case 3:
-                // GOTO (Jump)
-                break;
-            case 4:
-                // Accept
-                break;
-            default:
-                break;
-        }
+        switch (LALRAction.$.Action) {
+            case "1": // Shift
+                currentState = LALRAction.$.Value
+                stack.push(LALRAction.$.Value)
+                outRibbon.shift()
+                continue;
+            case "2": // Reduce
+                let nonTerminal = Productions[LALRAction.$.Value].$.NonTerminalIndex
+                for (let i = 0; i < Productions[LALRAction.$.Value].$.SymbolCount; i++) {
+                    stack.pop()
+                }
 
-        i++
+                id = LALRTab[stack[stack.length - 1]].LALRAction.findIndex((el) => el.$.SymbolIndex == nonTerminal)
+                LALRAction = LALRTab[stack[stack.length - 1]].LALRAction[id]
+                stack.push(LALRAction.$.Value)
+
+                currentState = stack[stack.length - 1]
+                continue;
+            case "3": // GOTO (Jump)
+                continue;
+            case "4": // Accept
+                continue;
+            default:
+                continue;
+        }
     }
     console.log(LALRTab[0].LALRAction)
 
@@ -71,6 +76,7 @@ function LoadGrammar() {
     });
 
     Symbols = Grammar.Tables.m_Symbol[0].Symbol
+    Productions = Grammar.Tables.m_Production[0].Production
     LALRTab = Grammar.Tables.LALRTable[0].LALRState
 
     for (var i = 0; i < TS.length; i++) {
@@ -84,7 +90,7 @@ function LoadGrammar() {
     id = Symbols.findIndex((el) => el.$.Name == "DecimalLiteral")
     Symbols[id].$["TSindex"] = 72
 
-    id = Symbols.findIndex((el) => el.$.Name == "Variable")
+    id = Symbols.findIndex((el) => el.$.Name == "Identifier")
     Symbols[id].$["TSindex"] = 71
 
 }
