@@ -13,9 +13,10 @@ exports.process = function() {
     let outRibbon = LEX_OUT.outRibbon.slice()
     let currentState = 0;
     let symbol = 0;
+    let aceita = false;
     let stack = Array("0")
 
-    while (outRibbon.length > 0) {
+    while (outRibbon.length >= 0 && !aceita) {
         let topSymbol = outRibbon[0]
         let id = Symbols.findIndex((el) => el.$.TSindex == topSymbol)
 
@@ -28,6 +29,10 @@ exports.process = function() {
 
         id = LALRTab[currentState].LALRAction.findIndex((el) => el.$.SymbolIndex == symbol)
         LALRAction = LALRTab[currentState].LALRAction[id]
+
+        if (id == -1) {
+            showError(topSymbol)
+        }
 
         switch (LALRAction.$.Action) {
             case "1": // Shift
@@ -50,13 +55,13 @@ exports.process = function() {
             case "3": // GOTO (Jump)
                 continue;
             case "4": // Accept
+                console.log('Aceita')
+                aceita = true;
                 continue;
             default:
                 continue;
         }
     }
-    console.log(LALRTab[0].LALRAction)
-
 }
 
 function LoadGrammar() {
@@ -95,4 +100,10 @@ function LoadGrammar() {
 
 }
 
-this.process()
+function showError(symbol_id) {
+    let TS = LEX_OUT.TS
+    let id = TS.findIndex((el) => el.state == symbol_id)
+    throw 'Sintaxe invalida perto de "' + TS[id].token + '" => linha ' + (TS[id].line + 1)
+}
+
+this.process();

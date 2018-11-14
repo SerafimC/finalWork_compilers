@@ -89,20 +89,18 @@ exports.process = function() {
     function insertTableSymbol(label, state, displacement) {
         let idTS = TS.findIndex((el) => el.token == label);
 
-        if (idTS >= 0) {
-            i + displacement
-            outRibbon.push(state)
-            currentState = 0
-            currentToken = ''
-            return
+        if (state == 'ErrorState') {
+            throw 'Simbolo ' + label + ' invalido! => linha ' + (i + 1)
         }
-        TS.push({ token: label, type: '', scope: '', state: state })
+
+        TS.push({ token: label, line: i, scope: '', state: state })
         outRibbon.push(state)
         currentToken = ''
         currentState = 0
         i + displacement
     }
 
-    console.log(TS)
+    // console.log(TS)
+    // console.log(outRibbon)
     return { TS: TS, outRibbon: outRibbon }
 }
